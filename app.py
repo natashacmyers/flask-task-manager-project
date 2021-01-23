@@ -21,7 +21,11 @@ mongo = PyMongo(app)
 @app.route("/")
 @app.route("/get_tasks")
 def get_tasks():
-    tasks = mongo.db.tasks.find()
+    # you only want to convert this 'tasks' object to a list,
+    #  if you want to use this item more than once on a page
+    # otherwise, even if you comment out the second version,
+    # Jinja will get upset. Making it a list will fix this.
+    tasks = list(mongo.db.tasks.find())
     return render_template("tasks.html", tasks=tasks)
 
 
